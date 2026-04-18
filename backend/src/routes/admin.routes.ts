@@ -4,6 +4,7 @@ import { prisma } from '../lib/prisma.js';
 import { requireAuth } from '../middleware/auth.js';
 import { HttpError } from '../middleware/errorHandler.js';
 import { publicUser } from '../services/auth.service.js';
+import type { User, Conversation, Message } from '@prisma/client';
 
 export const adminRouter = Router();
 
@@ -31,7 +32,7 @@ adminRouter.get('/users', async (_req, res, next) => {
       },
     });
     res.json({
-      users: users.map((u) => ({
+      users: users.map((u: User & { _count: { conversations: number } }) => ({
         ...publicUser(u),
         role: u.role,
         createdAt: u.createdAt.toISOString(),

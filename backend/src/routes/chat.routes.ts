@@ -8,6 +8,7 @@ import { sanitizeUserInput } from '../utils/sanitize.js';
 import { streamCompletion, type ChatTurn } from '../services/groq.service.js';
 import type { EmotionKey } from '../prompts/system.js';
 import { generateConversationTitle } from '../services/groq.service.js';
+import type { Conversation, Message } from '@prisma/client';
 
 export const chatRouter = Router();
 
@@ -37,7 +38,7 @@ chatRouter.get('/conversations', async (req, res, next) => {
       },
     });
     res.json({
-      conversations: conversations.map((c) => ({
+      conversations: conversations.map((c: Conversation & { messages: { emotionAtTime: string }[]; _count: { messages: number } }) => ({
         id: c.id,
         title: c.title,
         startedAt: c.startedAt.toISOString(),
@@ -82,7 +83,7 @@ chatRouter.get('/conversations/:id/messages', async (req, res, next) => {
       take: 100,
     });
     res.json({
-      messages: messages.map((m) => ({
+      messages: messages.map((m: Message) => ({
         id: m.id,
         role: m.role,
         content: m.content,
@@ -152,7 +153,7 @@ chatRouter.post('/', chatRateLimit, async (req, res, next) => {
     });
     const history: ChatTurn[] = prior
       .reverse()
-      .map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }));
+      .map((m: Message) => ({ role: m.role as 'user' | 'assistant', content: m.content }));
 
     // Persiste mensaje del usuario
     await prisma.message.create({
@@ -239,7 +240,7 @@ chatRouter.get('/history', async (req, res, next) => {
       take: 100,
     });
     res.json({
-      messages: messages.map((m) => ({
+      messages: messages.map((m: Message) => ({
         id: m.id,
         role: m.role,
         content: m.content,
