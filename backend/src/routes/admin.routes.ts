@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
+import { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
 import { requireAuth } from '../middleware/auth.js';
 import { HttpError } from '../middleware/errorHandler.js';
@@ -31,7 +32,7 @@ adminRouter.get('/users', async (_req, res, next) => {
       },
     });
     res.json({
-      users: users.map((u) => ({
+      users: users.map((u: Prisma.UserGetPayload<{ include: { _count: { select: { conversations: true } } } }>) => ({
         ...publicUser(u),
         role: u.role,
         createdAt: u.createdAt.toISOString(),
