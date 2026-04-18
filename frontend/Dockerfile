@@ -15,7 +15,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # ARG para la URL del backend — pásala en Railway como variable de entorno
-ARG BACKEND_URL=https://your-backend-url.up.railway.app
+ARG BACKEND_URL=https://unia-backend.up.railway.app
 
 RUN printf 'server {\n\
     listen 80;\n\
