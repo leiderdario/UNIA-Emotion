@@ -1,0 +1,69 @@
+// Prisma schema — UNIA-Emotion
+// Dev: SQLite. Prod: PostgreSQL (Railway/Render)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(uuid())
+  fullName        String
+  email           String   @unique
+  passwordHash    String
+  phone           String
+  whatsapp        String
+  emergencyEmail  String
+  role            String   @default("user")
+  faceDescriptor  String?
+  faceTraits      String?
+  facePhoto       String?
+  emotionPhotos   String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  conversations   Conversation[]
+  refreshTokens   RefreshToken[]
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  revokedAt  DateTime?
+
+  @@index([userId])
+}
+
+model Conversation {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title      String?
+  startedAt  DateTime @default(now())
+  emotionLog String   @default("[]")
+
+  messages   Message[]
+
+  @@index([userId])
+}
+
+model Message {
+  id              String   @id @default(uuid())
+  conversationId  String
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role            String
+  content         String
+  emotionAtTime   String
+  createdAt       DateTime @default(now())
+  isCrisisFlagged Boolean  @default(false)
+
+  @@index([conversationId])
+}
