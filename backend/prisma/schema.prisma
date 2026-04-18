@@ -1,12 +1,12 @@
 // Prisma schema — UNIA-Emotion
-// Dev: SQLite. Prod: cambiar provider a "postgresql" y apuntar DATABASE_URL.
+// DB: PostgreSQL (Railway). DATABASE_URL se inyecta como variable de entorno.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
