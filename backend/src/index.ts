@@ -20,6 +20,15 @@ const logger = pino({
       : undefined,
 });
 
+// Orígenes permitidos: FRONTEND_URL + localhost para desarrollo
+const allowedOrigins = [
+  env.FRONTEND_URL,
+  'http://localhost:5173',
+  'http://localhost:4173',
+].filter(Boolean) as string[];
+
+logger.info({ allowedOrigins }, 'CORS allowed origins');
+
 const app = express();
 
 app.use(
@@ -27,18 +36,29 @@ app.use(
     crossOriginResourcePolicy: { policy: 'cross-origin' },
   })
 );
+
 app.use(
   cors({
-    origin: env.FRONTEND_URL,
+    origin: (origin, callback) => {
+      // Permitir requests sin origin (Postman, curl, server-to-server)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        logger.warn({ origin }, 'CORS blocked request from unlisted origin');
+        callback(new Error(`CORS: origin ${origin} not allowed`));
+      }
+    },
     credentials: true,
   })
 );
+
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
 app.use(
   pinoHttp({
     logger,
-    // evitamos loggear cuerpo de mensajes por privacidad (RD-06)
     serializers: {
       req: (req) => ({ method: req.method, url: req.url, id: req.id }),
     },
@@ -58,6 +78,5 @@ app.use(errorHandler);
 
 app.listen(env.PORT, async () => {
   logger.info(`UNIA backend listening on http://localhost:${env.PORT}`);
-  // Auto-seed admin account on first run
   await seedAdmin().catch((err) => logger.error(err, 'Failed to seed admin'));
 });
