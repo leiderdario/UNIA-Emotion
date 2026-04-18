@@ -1,0 +1,19 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+*.log
+.DS_Store
+coverage/
+.vscode/
+.idea/
+
+# Backend
+backend/prisma/dev.db
+backend/prisma/dev.db-journal
+backend/prisma/migrations/dev-dummy/
+
+# Frontend
+frontend/public/models/*
+!frontend/public/models/.gitkeep

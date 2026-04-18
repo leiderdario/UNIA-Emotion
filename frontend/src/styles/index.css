@@ -1,0 +1,731 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --emotion-color: #888780;
+  --emotion-color-soft: rgba(136, 135, 128, 0.1);
+  --emotion-color-medium: rgba(136, 135, 128, 0.25);
+  --emotion-transition: background-color 1.2s ease, border-color 1.2s ease, color 1.2s ease, box-shadow 1.2s ease;
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --bg-card-hover: rgba(255, 255, 255, 0.07);
+  --text-primary: #f0eff4;
+  --text-secondary: #9896a3;
+  --text-muted: #5c5a66;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-strong: rgba(255, 255, 255, 0.12);
+  --sidebar-width: 300px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+body {
+  transition: var(--emotion-transition);
+}
+
+/* ── Dynamic Emotion Background ────────────────────────────────────── */
+.emotion-bg-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    var(--emotion-color-soft) 0%,
+    transparent 70%
+  );
+  transition: var(--emotion-transition);
+  pointer-events: none;
+}
+
+/* ── Glass Card ─────────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  transition: var(--emotion-transition);
+}
+
+.glass-card:hover {
+  background: var(--bg-card-hover);
+}
+
+.glass-card-strong {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-color-strong);
+  border-radius: 1rem;
+  transition: var(--emotion-transition);
+}
+
+/* ── Emotion Utilities ──────────────────────────────────────────────── */
+.emotion-tinted {
+  background-color: var(--emotion-color-soft);
+  border-color: var(--emotion-color);
+  transition: var(--emotion-transition);
+}
+
+.emotion-text {
+  color: var(--emotion-color);
+  transition: var(--emotion-transition);
+}
+
+.emotion-bg {
+  background-color: var(--emotion-color);
+  transition: var(--emotion-transition);
+}
+
+.emotion-border {
+  border-color: var(--emotion-color);
+  transition: var(--emotion-transition);
+}
+
+.emotion-glow {
+  box-shadow: 0 0 30px -5px var(--emotion-color-medium),
+              0 0 60px -10px var(--emotion-color-soft);
+  transition: var(--emotion-transition);
+}
+
+/* ── Avatar Container ───────────────────────────────────────────────── */
+.avatar-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-pulse-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid var(--emotion-color);
+  opacity: 0.3;
+  animation: avatar-pulse 3s ease-in-out infinite;
+  transition: var(--emotion-transition);
+}
+
+@keyframes avatar-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.06); opacity: 0.15; }
+}
+
+.avatar-glow-bg {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--emotion-color-medium) 0%, transparent 70%);
+  filter: blur(20px);
+  transition: var(--emotion-transition);
+  pointer-events: none;
+}
+
+/* ── Avatar Face Mode (user's real face as main avatar) ─────────────── */
+.avatar-emotion-ring {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0.6;
+  animation: ring-rotate 20s linear infinite;
+}
+
+@keyframes ring-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.avatar-ring-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: opacity 0.5s ease;
+}
+
+.avatar-face-frame {
+  border-radius: 50%;
+  overflow: hidden;
+  border-style: solid;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.avatar-face-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatar-emotion-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--bg-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  background: var(--bg-secondary);
+}
+
+.avatar-badge-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* ── Landmark canvas overlay ────────────────────────────────────────── */
+.landmark-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ── Scan status badge ──────────────────────────────────────────────── */
+.scan-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  color: #4ade80;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  z-index: 10;
+}
+
+.scan-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: scan-dot-pulse 1s ease-in-out infinite;
+}
+
+@keyframes scan-dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ── Admin Panel ────────────────────────────────────────────────────── */
+.admin-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 1.75rem;
+  padding: 0 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.admin-delete-btn:hover {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Inputs (dark theme) ────────────────────────────────────────────── */
+.input-dark {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  color: var(--text-primary);
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  width: 100%;
+}
+
+.input-dark::placeholder {
+  color: var(--text-muted);
+}
+
+.input-dark:focus {
+  border-color: var(--emotion-color);
+  box-shadow: 0 0 0 3px var(--emotion-color-soft);
+}
+
+.input-dark:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────── */
+.btn-primary {
+  background: var(--emotion-color);
+  color: #0a0a0f;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--emotion-color-medium);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  font-weight: 500;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-color: var(--border-color-strong);
+}
+
+.btn-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+}
+
+.btn-icon.active {
+  background: var(--emotion-color-soft);
+  border-color: var(--emotion-color);
+  color: var(--emotion-color);
+}
+
+/* ── Voice Recording Animation ──────────────────────────────────────── */
+.voice-recording {
+  position: relative;
+}
+
+.voice-recording::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--emotion-color);
+  animation: voice-ring 1.5s ease-in-out infinite;
+}
+
+@keyframes voice-ring {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.2); opacity: 0; }
+}
+
+/* ── TTS Button ─────────────────────────────────────────────────────── */
+.tts-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 0.375rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 10px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.tts-btn:hover {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.tts-btn-active {
+  color: var(--emotion-color);
+}
+
+.tts-waves {
+  display: inline-flex;
+  gap: 2px;
+  height: 12px;
+  align-items: center;
+}
+
+.tts-waves::before,
+.tts-waves::after {
+  content: '';
+  width: 2px;
+  height: 8px;
+  border-radius: 1px;
+  background: var(--emotion-color);
+  animation: tts-wave 0.8s ease-in-out infinite alternate;
+}
+
+.tts-waves::after {
+  height: 12px;
+  animation-delay: 0.2s;
+}
+
+@keyframes tts-wave {
+  0% { height: 4px; }
+  100% { height: 12px; }
+}
+
+/* ── Chat Sidebar ───────────────────────────────────────────────────── */
+.sidebar-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 55;
+  backdrop-filter: blur(2px);
+}
+
+.chat-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  max-width: 85vw;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  z-index: 60;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-sidebar-open {
+  transform: translateX(0);
+}
+
+.sidebar-conversations {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.sidebar-conv-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.sidebar-conv-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-conv-active {
+  background: var(--emotion-color-soft) !important;
+  border: 1px solid var(--emotion-color-medium);
+}
+
+.sidebar-delete-btn {
+  opacity: 0;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.sidebar-conv-item:hover .sidebar-delete-btn {
+  opacity: 1;
+}
+
+.sidebar-delete-btn:hover {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ── Face Scan Guide ────────────────────────────────────────────────── */
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scan-oval {
+  width: 55%;
+  height: 72%;
+  border: 3px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  position: relative;
+  transition: border-color 0.3s ease;
+}
+
+.scan-oval.detected {
+  border-color: #4ade80;
+  border-style: solid;
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+}
+
+.scan-oval.warning {
+  border-color: #facc15;
+  border-style: dashed;
+}
+
+.scan-instruction {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  color: #fff;
+}
+
+/* ── Camera Toggle ──────────────────────────────────────────────────── */
+.camera-pip {
+  position: fixed;
+  bottom: 5rem;
+  right: 1.5rem;
+  width: 180px;
+  height: 135px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color-strong);
+  z-index: 40;
+  transition: all 0.3s ease;
+}
+
+.camera-pip:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.camera-pip video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Progress Bar ───────────────────────────────────────────────────── */
+.progress-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--emotion-color);
+  transition: width 0.3s ease, background-color 1.2s ease;
+}
+
+/* ── Animations ─────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease forwards;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────── */
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  padding: 0.5rem;
+  background: linear-gradient(to top, var(--bg-primary), transparent);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ── Emotion Capture Overlay ────────────────────────────────────────── */
+.emotion-capture-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.emotion-capture-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  border: 2px solid;
+  transition: border-color 0.3s ease;
+  white-space: nowrap;
+}
+
+/* ── Emotion Chips ──────────────────────────────────────────────────── */
+.emotion-chip {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 8px;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  font-size: 0.875rem;
+  opacity: 0.4;
+  transition: all 0.3s ease;
+}
+
+.emotion-chip.current {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border-width: 2px;
+  animation: chip-pulse 1.5s ease-in-out infinite;
+}
+
+.emotion-chip.captured {
+  opacity: 1;
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+@keyframes chip-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.1); }
+  50% { box-shadow: 0 0 8px 2px rgba(255,255,255,0.05); }
+}
+
+/* ── Face Mismatch Overlay ──────────────────────────────────────────── */
+.face-mismatch-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+}

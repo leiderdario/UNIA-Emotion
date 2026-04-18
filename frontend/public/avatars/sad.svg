@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="skin" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="hsl(30,40%,72%)"/>
+      <stop offset="100%" stop-color="hsl(30,40%,60%)"/>
+    </radialGradient>
+  </defs>
+  <circle cx="100" cy="100" r="85" fill="url(#skin)" stroke="hsl(30,30%,50%)" stroke-width="1.5"/>
+  <g fill="#2b2b2b">
+    <path d="M 60 85 Q 72 80 84 92" fill="none" stroke="#2b2b2b" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 116 92 Q 128 80 140 85" fill="none" stroke="#2b2b2b" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="72" cy="98" r="4"/>
+    <circle cx="128" cy="98" r="4"/>
+  </g>
+  <path d="M 72 140 Q 100 122 128 140" fill="none" stroke="#2b2b2b" stroke-width="3" stroke-linecap="round"/>
+  <g fill="#378ADD">
+    <ellipse cx="72" cy="112" rx="2.5" ry="4">
+      <animate attributeName="cy" values="112;135;112" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;0" dur="4s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+</svg>

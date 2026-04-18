@@ -1,0 +1,27 @@
+{
+  "name": "unia-emotion",
+  "version": "0.1.0",
+  "private": true,
+  "description": "UNIA-Emotion: asistente emocional con detección facial y chatbot empático",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c blue,magenta \"npm -w backend run dev\" \"npm -w frontend run dev\"",
+    "dev:frontend": "npm -w frontend run dev",
+    "dev:backend": "npm -w backend run dev",
+    "build": "npm -w backend run build && npm -w frontend run build",
+    "test": "npm -w backend run test && npm -w frontend run test",
+    "lint": "npm -w backend run lint && npm -w frontend run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.43.0"
+  }
+}
