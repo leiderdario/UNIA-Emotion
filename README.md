@@ -6,7 +6,7 @@ Asistente emocional web con detección facial en tiempo real, avatar dinámico y
 
 - **Monorepo** con npm workspaces
 - **Frontend**: React 18 + Vite + TypeScript + Tailwind + face-api.js + Zustand
-- **Backend**: Node 20 + Express + TypeScript + Prisma + SQLite (dev)
+- **Backend**: Node 20 + Express + TypeScript + Prisma + PostgreSQL
 - **LLM**: Groq (llama-3.3-70b-versatile)
 - **TTS**: Web Speech API (con soporte futuro para ElevenLabs)
 
@@ -27,7 +27,7 @@ cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 # Edita backend/.env y pon tu GROQ_API_KEY
 
-# 3. Migrar base de datos (SQLite local)
+# 3. Migrar base de datos (requiere DATABASE_URL de PostgreSQL en backend/.env)
 npm -w backend run db:migrate
 
 # 4. Descargar modelos de face-api.js (ver sección abajo)
