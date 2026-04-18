@@ -1,5 +1,5 @@
 // Prisma schema — UNIA-Emotion
-// Dev: SQLite. Prod: cambiar provider a "postgresql" y apuntar DATABASE_URL.
+// Dev/Prod: PostgreSQL (Neon)
 
 generator client {
   provider = "prisma-client-js"
